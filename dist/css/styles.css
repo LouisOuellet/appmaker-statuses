@@ -1,0 +1,3 @@
+.icon-statuses::before,.icon-status::before{
+	content: "\f2c9";
+}
