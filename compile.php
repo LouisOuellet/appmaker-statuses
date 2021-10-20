@@ -74,7 +74,7 @@ class Compiler {
     }
     foreach($this->GitIgnore as $line){
       if($line != ''){
-        echo "Adding [".$line."]\n";
+        echo "Adding [".$line."] to .gitignore\n";
         file_put_contents(dirname(__FILE__) . '/.gitignore', $line.PHP_EOL , FILE_APPEND | LOCK_EX);
       }
     }
