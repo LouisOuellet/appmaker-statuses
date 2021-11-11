@@ -1,7 +1,7 @@
 {
     "repository": {
         "name": "appmaker-statuses",
-        "branch": "pre-release",
+        "branch": "dev",
         "manifest": "\/dist\/data\/manifest.json",
         "host": {
             "git": "https:\/\/github.com\/LouisOuellet\/",
@@ -12,6 +12,6 @@
         "statuses"
     ],
     "name": "statuses",
-    "build": 42,
-    "version": "21.11-pre-release"
+    "build": 43,
+    "version": "21.11-dev"
 }
