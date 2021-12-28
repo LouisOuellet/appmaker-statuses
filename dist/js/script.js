@@ -50,7 +50,45 @@ API.Plugins.statuses = {
 			}, 1000);
 		},
 	},
-	extend:{},
+	Timeline:{
+		icon:"info",
+		object:function(dataset,layout,options = {},callback = null){
+			if(options instanceof Function){ callback = options; options = {}; }
+			var defaults = {icon: API.Plugins.statuses.Timeline.icon,color: "secondary"};
+			if(API.Helper.isSet(options,['icon'])){ defaults.icon = options.icon; }
+			if(API.Helper.isSet(options,['color'])){ defaults.color = options.color; }
+			if(typeof dataset.id !== 'undefined'){
+				var dateItem = new Date(dataset.created);
+				var dateUS = dateItem.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-').replace(/,/g, '');
+				API.Builder.Timeline.add.date(layout.timeline,dataset.created);
+				var checkExist = setInterval(function() {
+					if(layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').length > 0){
+						clearInterval(checkExist);
+						if(API.Helper.isSet(layout,['timeline']) && layout.timeline.find('.time-label').first().find('div.btn-group').find('button[data-trigger="organizations"]').length <= 0){
+							layout.timeline.find('.time-label').first().find('div.btn-group').append('<button class="btn btn-secondary" data-trigger="organizations">'+API.Contents.Language['Organizations']+'</button>');
+						}
+						var html = '';
+						html += '<div data-plugin="statuses" data-id="'+dataset.id+'" data-name="'+dataset.name+'" data-date="'+dateItem.getTime()+'">';
+							html += '<i class="fas fa-'+defaults.icon+' bg-'+defaults.color+'"></i>';
+							html += '<div class="timeline-item">';
+								html += '<span class="time"><i class="fas fa-clock mr-2"></i><time class="timeago" datetime="'+dataset.created.replace(/ /g, "T")+'">'+dataset.created+'</time></span>';
+								html += '<h3 class="timeline-header">Status set to <span class="badge bg-'+dataset.color+'"><i class="'+dataset.icon+' mr-1" aria-hidden="true"></i>'+API.Contents.Language[dataset.name]+'</span></h3>';
+							html += '</div>';
+						html += '</div>';
+						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
+						var element = layout.timeline.find('[data-plugin="statuses"][data-id="'+dataset.id+'"]');
+						element.find('time').timeago();
+						var items = layout.timeline.children('div').detach().get();
+						items.sort(function(a, b){
+							return new Date($(b).data("date")) - new Date($(a).data("date"));
+						});
+						layout.timeline.append(items);
+						if(callback != null){ callback(element); }
+					}
+				}, 100);
+			}
+		},
+	},
 }
 
 API.Plugins.statuses.init();
