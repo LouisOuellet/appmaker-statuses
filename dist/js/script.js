@@ -70,7 +70,7 @@ API.Plugins.statuses = {
 							html += '<i class="fas fa-'+defaults.icon+' bg-'+defaults.color+'"></i>';
 							html += '<div class="timeline-item">';
 								html += '<span class="time"><i class="fas fa-clock mr-2"></i><time class="timeago" datetime="'+dataset.created.replace(/ /g, "T")+'">'+dataset.created+'</time></span>';
-								html += '<h3 class="timeline-header">Status set to <span class="badge bg-'+dataset.color+'"><i class="'+dataset.icon+' mr-1" aria-hidden="true"></i>'+API.Contents.Language[dataset.name]+'</span></h3>';
+								html += '<h3 class="timeline-header border-0">Status set to <span class="badge bg-'+dataset.color+'"><i class="'+dataset.icon+' mr-1" aria-hidden="true"></i>'+API.Contents.Language[dataset.name]+'</span></h3>';
 							html += '</div>';
 						html += '</div>';
 						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
