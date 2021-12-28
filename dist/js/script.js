@@ -64,9 +64,7 @@ API.Plugins.statuses = {
 				var checkExist = setInterval(function() {
 					if(layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').length > 0){
 						clearInterval(checkExist);
-						if(API.Helper.isSet(layout,['timeline']) && layout.timeline.find('.time-label').first().find('div.btn-group').find('button[data-trigger="organizations"]').length <= 0){
-							layout.timeline.find('.time-label').first().find('div.btn-group').append('<button class="btn btn-secondary" data-trigger="organizations">'+API.Contents.Language['Organizations']+'</button>');
-						}
+						API.Builder.Timeline.add.filter(layout,'statuses','Status');
 						var html = '';
 						html += '<div data-plugin="statuses" data-id="'+dataset.id+'" data-name="'+dataset.name+'" data-date="'+dateItem.getTime()+'">';
 							html += '<i class="fas fa-'+defaults.icon+' bg-'+defaults.color+'"></i>';
