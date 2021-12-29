@@ -91,18 +91,17 @@ API.Plugins.statuses = {
 		details:{
 			detail:function(data,layout,options = {},callback = null){
 				if(options instanceof Function){ callback = options; options = {}; }
-				var defaults = {field: "name"};
-				for(var [key, option] of Object.entries(options)){ if(API.Helper.isSet(defaults,[key])){ defaults[key] = option; } }
-				options.field = "status";
-				options.td = '';
-				options.td += '<td data-plugin="organizations" data-key="'+options.field+'">';
-					if(API.Helper.isSet(API.Contents.Statuses,['organizations',data.this.raw.status])){
-						options.td += '<span class="badge bg-'+API.Contents.Statuses.organizations[data.this.raw.status].color+'">';
-							options.td += '<i class="'+API.Contents.Statuses.organizations[data.this.raw.status].icon+' mr-1" aria-hidden="true"></i>'+API.Contents.Statuses.organizations[data.this.raw.status].name+'';
-						options.td += '</span>';
+				var url = new URL(window.location.href);
+				var defaults = {field: "status"};
+				defaults.td = '<td data-plugin="'+url.searchParams.get("p")+'" data-key="'+options.field+'">';
+					if(API.Helper.isSet(API.Contents.Statuses,[url.searchParams.get("p"),data.this.raw.status])){
+						defaults.td += '<span class="badge bg-'+API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].color+'">';
+							defaults.td += '<i class="'+API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].icon+' mr-1" aria-hidden="true"></i>'+API.Contents.Language[API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].name]+'';
+						defaults.td += '</span>';
 					}
-				options.td += '</td>';
-				API.GUI.Layouts.details.data(data,layout,options,function(data,layout,tr){});
+				defaults.td += '</td>';
+				for(var [key, option] of Object.entries(options)){ if(API.Helper.isSet(defaults,[key])){ defaults[key] = option; } }
+				API.GUI.Layouts.details.data(data,layout,defaults,function(data,layout,tr){});
 				if(callback != null){ callback(dataset,layout); }
 			},
 			GUI:{},
@@ -110,51 +109,8 @@ API.Plugins.statuses = {
 				var url = new URL(window.location.href);
 				if(options instanceof Function){ callback = options; options = {}; }
 				var defaults = {field: "name"};
-				if(API.Helper.isSet(options,['field'])){ defaults.field = options.field; }
-				if(API.Auth.validate('plugin', 'notes', 2)){
-					layout.content.notes.find('button').off().click(function(){
-					  if(!layout.content.notes.find('textarea').summernote('isEmpty')){
-					    var note = {
-					      by:API.Contents.Auth.User.id,
-					      content:layout.content.notes.find('textarea').summernote('code'),
-					      relationship:url.searchParams.get("p"),
-					      link_to:dataset.this.dom.id,
-					      status:dataset.this.raw.status,
-					    };
-					    layout.content.notes.find('textarea').val('');
-					    layout.content.notes.find('textarea').summernote('code','');
-					    layout.content.notes.find('textarea').summernote('destroy');
-					    layout.content.notes.find('textarea').summernote({
-					      toolbar: [
-					        ['font', ['fontname', 'fontsize']],
-					        ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-					        ['color', ['color']],
-					        ['paragraph', ['style', 'ul', 'ol', 'paragraph', 'height']],
-					      ],
-					      height: 250,
-					    });
-					    API.request(url.searchParams.get("p"),'note',{data:note},function(result){
-					      var data = JSON.parse(result);
-					      if(data.success != undefined){
-									API.Plugins.notes.Timeline.object(data.output.note.dom,layout);
-					      }
-					    });
-					    layout.tabs.find('a').first().tab('show');
-					  } else {
-					    layout.content.notes.find('textarea').summernote('destroy');
-					    layout.content.notes.find('textarea').summernote({
-					      toolbar: [
-					        ['font', ['fontname', 'fontsize']],
-					        ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-					        ['color', ['color']],
-					        ['paragraph', ['style', 'ul', 'ol', 'paragraph', 'height']],
-					      ],
-					      height: 250,
-					    });
-					    alert(API.Contents.Language['Note is empty']);
-					  }
-					});
-				}
+				for(var [key, option] of Object.entries(options)){ if(API.Helper.isSet(defaults,[key])){ defaults[key] = option; } }
+				if(callback != null){ callback(dataset,layout); }
 			},
 		},
 	},
