@@ -101,8 +101,10 @@ API.Plugins.statuses = {
 					}
 				defaults.td += '</td>';
 				for(var [key, option] of Object.entries(options)){ if(API.Helper.isSet(defaults,[key])){ defaults[key] = option; } }
-				API.GUI.Layouts.details.data(data,layout,defaults,function(data,layout,tr){});
-				if(callback != null){ callback(dataset,layout); }
+				API.Builder.Timeline.add.filter(layout,'statuses','Status');
+				API.GUI.Layouts.details.data(data,layout,defaults,function(data,layout,tr){
+					if(callback != null){ callback(data,layout,tr); }
+				});
 			},
 			GUI:{},
 			Events:function(dataset,layout,options = {},callback = null){
