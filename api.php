@@ -1,8 +1,10 @@
 <?php
 class statusesAPI extends CRUDAPI {
-  
+
 	public function buildRelation($relations,$relation){
-    $relations[$relation['relationship']][$relation['link_to']]['status'] = $this->Auth->query('SELECT * FROM `statuses` WHERE `id` = ?',$relation['statuses'])->fetchAll()->All()[0]['order'];
+    if(isset($relation['statuses'])){
+      $relations[$relation['relationship']][$relation['link_to']]['status'] = $this->Auth->query('SELECT * FROM `statuses` WHERE `id` = ?',$relation['statuses'])->fetchAll()->All()[0]['order'];
+    }
     return $relations;
   }
 }
