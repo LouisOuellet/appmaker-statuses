@@ -87,13 +87,26 @@ API.Plugins.statuses = {
 			}
 		},
 	},
+	update:function(data,layout,options = {},callback = null){
+		if(API.Helper.isSet(layout,['details','status'])){
+			if(options instanceof Function){ callback = options; options = {}; }
+			var url = new URL(window.location.href);
+			var defaults = {field: "status"};
+			for(var [key, option] of Object.entries(options)){ if(API.Helper.isSet(defaults,[key])){ defaults[key] = option; } }
+			var html = '<span class="badge bg-'+API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].color+'">';
+			html += '<i class="'+API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].icon+' mr-1" aria-hidden="true"></i>'+API.Contents.Language[API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].name]+'</span>';
+			layout.details.status.find('td').last().html(html);
+			if(callback != null){ callback(data,layout,layout.details.status); }
+		}
+	},
 	Layouts:{
 		details:{
 			detail:function(data,layout,options = {},callback = null){
 				if(options instanceof Function){ callback = options; options = {}; }
 				var url = new URL(window.location.href);
 				var defaults = {field: "status"};
-				defaults.td = '<td data-plugin="'+url.searchParams.get("p")+'" data-key="'+options.field+'">';
+				for(var [key, option] of Object.entries(options)){ if(API.Helper.isSet(defaults,[key])){ defaults[key] = option; } }
+				defaults.td = '<td data-plugin="'+url.searchParams.get("p")+'" data-key="'+defaults.field+'">';
 					if(API.Helper.isSet(API.Contents.Statuses,[url.searchParams.get("p"),data.this.raw.status])){
 						defaults.td += '<span class="badge bg-'+API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].color+'">';
 							defaults.td += '<i class="'+API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].icon+' mr-1" aria-hidden="true"></i>'+API.Contents.Language[API.Contents.Statuses[url.searchParams.get("p")][data.this.raw.status].name]+'';
