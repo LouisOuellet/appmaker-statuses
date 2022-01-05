@@ -8,10 +8,12 @@
             "raw": "https:\/\/raw.githubusercontent.com\/LouisOuellet\/"
         }
     },
-    "table": [
-        "statuses"
-    ],
+    "requirements": {
+        "table": [
+            "statuses"
+        ]
+    },
     "name": "statuses",
-    "build": 83,
+    "build": 84,
     "version": "22.01-dev"
 }
