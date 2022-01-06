@@ -954,9 +954,9 @@
             "modified": "2020-11-17 08:48:06",
             "owner": "1",
             "updated_by": "1",
-            "name": "Closed",
-            "icon": "far fa-envelope",
-            "color": "danger",
+            "name": "Merged",
+            "icon": "fas fa-mail-bulk",
+            "color": "primary",
             "order": 2,
             "relationship": "conversations"
         },
@@ -966,9 +966,9 @@
             "modified": "2020-11-17 08:48:06",
             "owner": "1",
             "updated_by": "1",
-            "name": "Merged",
-            "icon": "fas fa-mail-bulk",
-            "color": "primary",
+            "name": "Closed",
+            "icon": "fas fa-envelope",
+            "color": "danger",
             "order": 3,
             "relationship": "conversations"
         }
